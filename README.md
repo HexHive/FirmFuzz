@@ -1,4 +1,3 @@
-
 **NOTE** Since this framework performs a lot of system-level configuration changes to operate
 it is highly recommended to create an environment for this inside a VM.
 
@@ -77,4 +76,5 @@ You can use the following instructions to do so:
 - Run the selenium backend: `java -jar selenium-server-standalone-3.4.0.jar`
 - Run the proxy server using the IP address where the firmware is exposing the web API. You can find this looking at the `run.sh` script that is generated for the emulated firmware
 - The proxy server can be run as `mitmdump -R http://192.168.10.1 -s proxylogger.py`
+- If you know the credentials to authenticate with the firmware, put username in first line and password in the second line (with `_` for blank) in `data/credentials.txt` to bootstrap the fuzzing process
 - With these components up, the fuzzer can be fired up. An example invocation is provided that tests CI: `python fuzzer.py -d ~/location/of/emulated/firmware/ -u http://0.0.0.0:8080 -v 1 -a 1
