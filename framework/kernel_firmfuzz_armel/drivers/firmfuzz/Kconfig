@@ -1,0 +1,8 @@
+#config FIRMADYNE
+#	bool "FIRMADYNE: Dynamic firmware analysis"
+#	help
+#		These are kernel changes to support firmware emulation and analysis.
+config FIRMFUZZ
+	bool "FIRMFUZZ: Dynamic firmware analysis"
+	help
+		These are kernel changes to support firmware emulation and analysis.
