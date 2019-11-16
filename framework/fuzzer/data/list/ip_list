@@ -1,0 +1,5 @@
+lan_ipaddr
+lan_netmask 
+dhcpd_start 
+dhcpd_end
+reserved_ip

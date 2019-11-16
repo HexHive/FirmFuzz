@@ -1,5 +1,5 @@
 #Specify the root dir of the fuzzer
-FUZZER_ROOT_DIR = '/home/prex94/firmfuzz-suffix/framework/fuzzer/'
+FUZZER_ROOT_DIR = '/home/prex94/final_version/FirmFuzz/framework/fuzzer/'
 
 #Directory where the data is held
 FUZZER_DATA_DIR = FUZZER_ROOT_DIR + 'data/'
