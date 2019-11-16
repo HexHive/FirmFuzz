@@ -12,14 +12,7 @@ debug = 0
 
 QEMUCMDTEMPLATE = """#!/bin/bash
 source ./env_var.config
-
-if [ -z "$1" ]
-then
-    echo "Not being run in standalone mode"
-else
-  ARCH="$1"
-fi
-
+ARCH="%(ARCHEND)s"
 set -u
 IID=%(IID)i
 %(START_NET)s
@@ -35,8 +28,8 @@ echo "Starting firmware emulation... use Ctrl-a + x to exit"
 sleep 1s
 
 %(QEMU_ENV_VARS)s %(QEMU)s -m 256 -M %(MACHINE)s -kernel %(KERNEL)s \\
-     %(QEMU_DISK)s -append "root=%(QEMU_ROOTFS)s panic=1 console=ttyS0 nandsim.parts=64,64,64,64,64,64,64,64,64,64 rw debug ignore_loglevel print-fatal-signals=1 user_debug=31 firmadyne.syscall=0 rdinit=/firmadyne/preInit.sh" \\
-    -nographic -no-reboot \\
+     %(QEMU_DISK)s -append "root=%(QEMU_ROOTFS)s console=ttyS0 nandsim.parts=64,64,64,64,64,64,64,64,64,64 rw debug ignore_loglevel print-fatal-signals=1 user_debug=31 firmadyne.syscall=0 rdinit=/firmadyne/preInit.sh" \\
+     -qmp tcp:localhost:3133,server,nowait -serial mon:stdio -nographic -no-reboot \\
     %(QEMU_NETWORK)s | tee qemu.final.serial.log
 """
 
@@ -261,7 +254,7 @@ def qemuCmd(iid, network, arch, endianness):
         qemu_rootfs = "/dev/sda1"
         qemuKernel = "${KERNEL_DIR}/${ARCH}/vmlinux"
         #qemuDisk = "-initrd /tmp/initramfs_data.cpio.gz"
-        qemuDisk = "-drive if=ide,format=raw,file=image.raw"
+        qemuDisk = "-drive if=ide,format=qcow2,file=image.qcow2"
         if endianness != "eb" and endianness != "el":
             raise Exception("You didn't specify a valid endianness")
             
@@ -288,7 +281,7 @@ def qemuCmd(iid, network, arch, endianness):
                               'STOP_NET' : stopNetwork(network),
                               'QEMU_DISK' : qemuDisk,
                               'KERNEL' : qemuKernel,
-			      'QEMU_ROOTFS' : qemu_rootfs,
+			                         'QEMU_ROOTFS' : qemu_rootfs,
                               'QEMU_NETWORK' : qemuNetworkConfig(arch, network),
                               'QEMU_ENV_VARS' : qemuEnvVars}
 
@@ -337,13 +330,14 @@ def process(infile, iid, arch, endianness=None, makeQemuCmd=False, outfile=None)
 
     if makeQemuCmd:
         qemuCommandLine = qemuCmd(iid, pruned_network, arch, endianness)
-    if qemuCommandLine:
+    if qemuCommandLine and len(ifacesWithIps) != 0:
         success = True
-    if outfile:
         with open(outfile, "w") as out:
             out.write(qemuCommandLine)
         os.chmod(outfile, stat.S_IRWXU | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
     else:
+        print ('No non-loopback interfaces inferred')
+        success = False
         print(qemuCommandLine)
 
     return success
@@ -398,7 +392,9 @@ def main():
     #if debug:
     #    print("processing %i" % iid)
     if infile:
-        process(infile, iid, arch, endianness, makeQemuCmd, outfile)
+        success = process(infile, iid, arch, endianness, makeQemuCmd, outfile)
+        if not success:
+          sys.exit(1)
 
 if __name__ == "__main__":
     main()

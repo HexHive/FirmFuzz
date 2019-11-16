@@ -75,6 +75,11 @@ mkdir -p $FINAL_IMAGE/$IMAGE_NAME
 umount_image $DEVICE
 mv $IMAGE $FINAL_IMAGE/$IMAGE_NAME
 
+echo "---Converting raw to QCOW2 image---"
+cd $FINAL_IMAGE/$IMAGE_NAME
+qemu-img convert -f raw -O qcow2 image.raw image.qcow2
+cd -
+
 cp $KERNEL_DIR/../drivers/firmfuzz/devfs_stubs.c $IMAGE_SCRIPTS/run.sh $IMAGE_SCRIPTS/env_var.config $FINAL_IMAGE/$IMAGE_NAME/
 
 if [ "$ARCH" == "armel" ]; then

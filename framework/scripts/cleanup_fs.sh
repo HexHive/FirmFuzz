@@ -6,7 +6,6 @@ umount_image() {
   #losetup -d "$1" &>/dev/null                                              
   #dmsetup remove $(basename "$1") &>/dev/null
 }
-TEST_PATH="/home/ubuntu/bin:/home/ubuntu/.local/bin:/usr/local/csail/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/opt/cross/mipsel-linux-musl/bin:/opt/cross/mipseb-linux-musl/bin:/opt/cross/arm-linux-musleabi/bin"
 ROOT_DIR="$HOME"
 HOME_DIR="$ROOT_DIR/firmfuzz"
 KERNEL_DIR="$HOME_DIR/framework/kernel_firmfuzz/drivers/firmfuzz/"

@@ -20,6 +20,15 @@ Instructions for each of these steps is provided below.
 - Use the firmadyne extractor system to extract the linux filesystem from the firmware image. Otherwise
 you can provide a filesystem extracted using binwalk as well but I didn't test with that.
 
+## Firmware Emulation
+
+- Put the extracted filesystem from the previous phase (in the form of a .tgz file) into a folder name
+  `$IMAGE_DIR`. (Note that `IMAGE_DIR` can be named anything)
+
+- Run `./run_batch_fs.sh $IMAGE_DIR
+
+- If a succcessful emulation for the firmware image is created, it would be placed in 
+
 Cross compiling kernel [1]
 ----------------------------
 
